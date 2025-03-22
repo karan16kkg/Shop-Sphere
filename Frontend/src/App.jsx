@@ -8,6 +8,8 @@ import Products from './components/Products'
 import Contact from './components/Contact'
 import SingleProduct from './components/SingleProduct'
 import Cart from './components/Cart'
+import Footer from './components/Footer'
+import About from './components/About'
 
 function App() {
   
@@ -21,6 +23,8 @@ function App() {
         <Route path='/contact' element = {<Contact/>}></Route>
         <Route path='/singleproduct' element = {<SingleProduct/>}></Route>
         <Route path='/cart' element = {<Cart/>}></Route>
+        <Route path='/footer' element={<Footer/>}></Route>
+        <Route path='/about' element={<About/>}></Route>
       </Routes>
     </>
   )

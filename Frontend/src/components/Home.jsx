@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import Navbar from './Navbar';
+import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
 
   const image = [
@@ -19,10 +21,15 @@ const Home = () => {
 
   }, []);
 
+  const navigate = useNavigate();
+  const handleContact = () => {
+    navigate("/contact");
+  }
+
   return (
     <>
       <Navbar />
-      <div className='h-[75vh] w-full flex' style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className='h-[75vh] w-full flex transition-opacity duration-2000 ease-in-out' style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 1s ease-in-out' }}>
         <div className='w-3/5 flex flex-col items-center justify-center font-medium'>
           <h1 className='text-3xl md:text-7xl lg:text-7xl'>Incredible Prices</h1>
           <br />
@@ -57,6 +64,19 @@ const Home = () => {
           <span>Available to you 24/7</span>
         </div>
       </div>
+
+      <div className='text-white bg-black flex'>
+        <div className='w-full md:w-2/5 lg:w-2/5 flex flex-col justify-center items-center pl-4 py-3'>
+          <h1 className='text-4xl md:text-3xl lg:text-3xl font-medium'>Need Help? Check Out Our Help Center</h1>
+          <span className='mt-10'>Click here to Contact Us</span>
+          <button className='py-3 px-7 border-2 border-blue-900 mt-5 rounded-full bg-white text-blue-900 hover:text-white hover:bg-blue-900 cursor-pointer' onClick={handleContact}>Contact Us</button>
+
+        </div>
+        <div className='w-3/5 hidden md:flex lg:flex justify-end'>
+          <img className=' w-full h-[53vh]' src="/contact.png" alt="" />
+        </div>
+      </div>
+      <Footer />
     </>
   )
 }

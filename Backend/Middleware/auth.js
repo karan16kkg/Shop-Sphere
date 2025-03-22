@@ -10,7 +10,7 @@ signup.get("/signup",(req,res)=>{
 })
 
 signup.post("/signup",async (req,res)=>{
-    let{name,email,password,role} = req.body;
+    let{name,email,password,role,pic} = req.body;
 
     if(!name || !email || !password){
         return res.send({Message:"All Fields Required"})
@@ -19,29 +19,40 @@ signup.post("/signup",async (req,res)=>{
     
     db.query('SELECT email FROM users WHERE email = ?',[email],(error,results)=>{
         if(error){
-            return res.status(500).send({message:"Database Error"})
+            return res.send({message:"Database Error"})
         }
 
         if(results.length > 0){
-            return res.status(400).send({message:"User Already Exists ❌"})
+            return res.send({message:"User Already Exists ❌"})
         }
         
         if(role){
-            db.query('INSERT INTO users (name,email,password,role) VALUES (?,?,?,?)',[name,email,newPass,role],(error)=>{
-                if(error){
-                    return res.status(500).send({message:"Signup Failed ❌"})
-                }
-    
-                res.status(201).send({message:"User Account Created Successfully ✅"})
-            })
+            if(pic){
+                db.query('INSERT INTO users (name,email,password,role,pic) VALUES (?,?,?,?,?)',[name,email,newPass,role,pic],(error)=>{
+                    if(error){
+                        return res.send({message:"Signup Failed ❌"})
+                    }
+        
+                    res.status(201).send({message:"User Account Created Successfully  ✅"})
+                })
+            }
+            else{
+                db.query('INSERT INTO users (name,email,password,role) VALUES (?,?,?,?)',[name,email,newPass,role],(error)=>{
+                    if(error){
+                        return res.send({message:"Signup Failed ❌"})
+                    }
+        
+                    res.status(201).send({message:"User Account Created Successfully  ✅"})
+                })
+            }
         }
         else{
             db.query('INSERT INTO users (name,email,password) VALUES (?,?,?)',[name,email,newPass],(error)=>{
                 if(error){
-                    return res.status(500).send({message:"Signup Failed ❌"})
+                    return res.send({message:"Signup Failed ❌",error})
                 }
     
-                res.status(201).send({message:"User Account Created Successfully ✅"})
+                res.status(201).send({message:"User Account Created Successfully  ✅"})
             })
         }
     })
@@ -61,7 +72,7 @@ signup.post("/login",async(req,res)=>{
         }
 
         if(results.length == 0){
-            return res.status(400).send({message:"User Not Found ❌"})
+            return res.send({message:"User Not Found ❌"})
         }
 
         const user = results[0];
@@ -69,15 +80,16 @@ signup.post("/login",async(req,res)=>{
         const isMatch = await bcrypt.compare(password,user.password);
 
         if(!isMatch){
-            return res.status(401).send({ message: "Invalid Email or Password ❌" });
+            return res.send({ message: "Invalid Email or Password ❌" });
         }
 
         res.status(200).send({
-            message:"Login Successful ✅",
+            message:"Login Successful  ✅",
             id: user.id,
             name: user.name,
             email: user.email,
             role: user.role,
+            pic:user.pic,
             token:generateToken(user.id,user.email)
         })
     })
