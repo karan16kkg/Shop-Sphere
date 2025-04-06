@@ -3,21 +3,27 @@ import { useState, useRef } from 'react'
 import axios from "axios"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import { ProductState } from '../../context/ProductProvider';
 const Login = () => {
   const [form, setform] = useState({ name: "", email: "", password: "" });
   const [action, setaction] = useState("Login")
   const imgRef = useRef();
   const passRef = useRef();
 
+  const {setuser} = ProductState();
+
   const handleForm = (e) => {
     setform({ ...form, [e.target.name]: e.target.value })
   }
+
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     axios.post("http://localhost:3000/user/login", { email: form.email, password: form.password })
       .then((response) => {
         let x = response.data.message
-        toast(x , {
+        toast(x, {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -26,16 +32,62 @@ const Login = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          });
-        console.log(response.data);
+        });
+
+        if (x == "Login Successful  ✅") {
+          localStorage.setItem("userInfo", JSON.stringify(response.data))
+          setTimeout(() => {
+            setuser(response.data);
+            navigate("/")
+          }, 3000);
+        }
       })
   }
 
   const handleSignup = () => {
-    axios.post("http://localhost:3000/user/signup",form)
-    .then((response)=>{
-      let x = response.data.message;
-      toast(x , {
+    if (form.password.length > 3 && form.email.includes("@gmail.com") && form.name.length > 0) {
+      axios.post("http://localhost:3000/user/signup", form)
+        .then((response) => {
+          let x = response.data.message;
+          toast(x, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          console.log(response);
+        })
+    }
+    else if (form.password.length <= 3) {
+      toast("Minimum 4 digits in password required", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else if (!form.email.includes("@gmail.com")) {
+      toast("Enter a valid Email", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    else if(form.name.length == 0){
+      toast("Username Required " , {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -45,8 +97,7 @@ const Login = () => {
         progress: undefined,
         theme: "light",
         });
-      console.log(response);
-    })
+    }
   }
 
   const handleShow = () => {

@@ -5,8 +5,16 @@ const bcrypt = require("bcryptjs");
 const generateToken = require("./generateToken.js");
 const jwt = require("jsonwebtoken")
 
-signup.get("/signup",(req,res)=>{
-    res.send("Hello2")
+signup.get("/sellers",(req,res)=>{
+    let role = "seller";
+
+    db.query('SELECT * FROM users WHERE role = ?',[role],(error,results)=>{
+        if(error){
+            return res.send({message:"Database Error"});
+        }
+
+        res.send(results)
+    })
 })
 
 signup.post("/signup",async (req,res)=>{

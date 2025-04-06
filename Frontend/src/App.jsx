@@ -10,6 +10,7 @@ import SingleProduct from './components/SingleProduct'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import About from './components/About'
+import ErrorPage from './components/ErrorPage'
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
         <Route path='/cart' element = {<Cart/>}></Route>
         <Route path='/footer' element={<Footer/>}></Route>
         <Route path='/about' element={<About/>}></Route>
+        <Route path='*' element={<ErrorPage/>}></Route>
       </Routes>
     </>
   )

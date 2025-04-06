@@ -1,7 +1,8 @@
 const express = require("express");
 const signup = require("./Middleware/auth.js");
 const products = require("./Middleware/sellers.js");
-const cors = require("cors")
+const cors = require("cors");
+const cart = require("./Middleware/cart.js");
 require("./Models/setup.js");
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.urlencoded ({extended:false}))
 
 app.use("/user",signup)
 app.use("/products",products)
+app.use("/cart",cart)
 
 app.get("/",(req,res)=>{
     res.send("Hello");
