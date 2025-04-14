@@ -12,8 +12,7 @@ const ProductProvider = ({children}) => {
 
   const fetchUserData = async()=>{
     const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-    
-    
+
     if (userInfo){
       let token = userInfo.token;
 

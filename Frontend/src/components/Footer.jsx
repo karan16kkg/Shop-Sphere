@@ -10,7 +10,7 @@ const Footer = () => {
           </h1>
           <p className='text-gray-600 font-extralight'>Phoenix Marketcity, 207, Nagar Rd, Clover Park, Viman Nagar, Pune, Maharashtra 411014</p>
           <span className='w-full font-extralight'>123-456-7890</span>
-          <div className='w-full flex gap-4 mt-5'>
+          <div className='w-full flex gap-4 mt-5'>nd
             <span className='text-2xl'><i class="bi bi-facebook"></i></span>
             <span className='text-2xl'><i class="bi bi-whatsapp"></i></span>
             <span className='text-2xl'><i class="bi bi-instagram"></i></span>

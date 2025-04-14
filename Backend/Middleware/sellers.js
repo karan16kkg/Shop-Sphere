@@ -19,7 +19,7 @@ products.get("/",(req,res)=>{
 })
 
 products.get("/front",(req,res)=>{
-    db.query('(SELECT * FROM products WHERE(category = "mobile") LIMIT 1) UNION (SELECT * FROM products WHERE(category = "watch") LIMIT 1) UNION (SELECT * FROM products WHERE(category = "laptop") LIMIT 1) UNION (SELECT * FROM products WHERE(category = "accessories") LIMIT 1)',(error,response)=>{
+    db.query('SELECT * FROM products WHERE front = ?',[true],(error,response)=>{
         if(error){
             return res.status(500).send({message:"Products Not Found ❌",error});
         }
@@ -42,6 +42,66 @@ products.post("/",(req,res)=>{
         }
 
         res.status(201).send({message:"Product added successfully ✅"})
+    })
+})
+
+products.get("/mobile",(req,res)=>{
+    db.query('SELECT * FROM products WHERE category = ?',["mobile"],(error,results)=>{
+        if(error){
+            return res.send({message:"There ia an error",error});
+        }
+
+        const formattedResults = results.map((data) =>({
+            ...data,
+            images: JSON.parse(data.images)
+        }));
+
+        res.send(formattedResults);
+    })
+})
+
+products.get("/laptop",(req,res)=>{
+    db.query('SELECT * FROM products WHERE category = ?',["laptop"],(error,results)=>{
+        if(error){
+            return res.send({message:"There ia an error",error});
+        }
+
+        const formattedResults = results.map((data) =>({
+            ...data,
+            images: JSON.parse(data.images)
+        }));
+
+        res.send(formattedResults);
+    })
+})
+
+products.get("/watch",(req,res)=>{
+    db.query('SELECT * FROM products WHERE category = ?',["watch"],(error,results)=>{
+        if(error){
+            return res.send({message:"There ia an error",error});
+        }
+
+        const formattedResults = results.map((data) =>({
+            ...data,
+            images: JSON.parse(data.images)
+        }));
+
+        res.send(formattedResults);
+    })
+})
+
+products.get("/accessories",(req,res)=>{
+    db.query('SELECT * FROM products WHERE category = ?',["accessories"],(error,results)=>{
+        if(error){
+            return res.send({message:"There ia an error",error});
+        }
+
+        const formattedResults = results.map((data) =>({
+            ...data,
+            images: JSON.parse(data.images)
+        }));
+
+        res.send(formattedResults);
     })
 })
 

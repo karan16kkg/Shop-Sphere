@@ -52,7 +52,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className='h-[75vh] w-full flex transition-opacity duration-2000 ease-in-out' style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 1s ease-in-out' }}>
+      <div className='h-[75vh] w-full flex transition-opacity duration-2000 ease-in-out relative' style={{ backgroundImage: `url(${background})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center',transition: 'background-image 1s ease-in-out' }}>
         <div className='w-3/5 flex flex-col items-center justify-center font-medium'>
           <h1 className='text-3xl md:text-7xl lg:text-7xl'>Incredible Prices</h1>
           <br />
@@ -62,7 +62,7 @@ const Home = () => {
           <p className='mt-14 text-xl w-1/2'>Get more for less on selected brands</p>
 
           <div className='w-1/2 mt-10'>
-            <button className='border-2 border-blue-900 px-10 py-1 md:py-3 lg:py-3 text-xl rounded-full bg-blue-900 text-white cursor-pointer hover:bg-white hover:text-blue-900'>Shop Now</button>
+            <button className='border-2 border-blue-900 px-10 py-1 md:py-3 lg:py-3 text-xl rounded-full bg-blue-900 text-white cursor-pointer hover:bg-white hover:text-blue-900' onClick={handleView}>Shop Now</button>
           </div>
 
         </div>
@@ -92,7 +92,7 @@ const Home = () => {
         <h1 className='w-full flex justify-center text-6xl'>Best Sellers</h1>
         <div className='style w-full overflow-scroll flex gap-5 px-10 mt-6'>
           {product && product.map((data,index)=>{
-            return <div key={index} className='border-1 border-gray-300 rounded-3xl flex flex-col items-center w-full py-4 cursor-pointer md:w-1/3 lg:w-1/3 shrink-0 bg-white hover:py-2' onClick={()=>{handleSelect(data)}}>
+            return <div key={index} className='border-1 border-gray-300 my-3 rounded-3xl flex flex-col items-center w-full py-4 cursor-pointer md:w-1/3 lg:w-1/3 shrink-0 bg-white hover:shadow-md hover:shadow-gray-500' onClick={()=>{handleSelect(data)}}>
                 <img className='w-2/4 h-fit' src={data.images[0]} alt="" />
               <div className='flex flex-col mt-2'>
                 <span className='text-2xl'>{data.name}</span>

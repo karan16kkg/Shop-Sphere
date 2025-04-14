@@ -67,7 +67,7 @@ const SingleProduct = () => {
       axios.post("http://localhost:3000/cart", ({ user_id: user.id, product_id: selectedProduct.id, qty: quantity }))
         .then((response) => {
           let x = response.data.message;
-          if(x === "Product added successfully ✅"){
+          // if(x){
             toast(x, {
               position: "top-right",
               autoClose: 2000,
@@ -78,7 +78,7 @@ const SingleProduct = () => {
               progress: undefined,
               theme: "light",
             });
-          }
+          // }
         })
         setcartCount(cartCount=>cartCount+1)
     }

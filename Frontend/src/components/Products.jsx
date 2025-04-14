@@ -5,7 +5,6 @@ import axios from 'axios'
 import {useNavigate} from "react-router-dom"
 
 const Products = () => {
-  const [products, setproducts] = useState([])
   const [filteredProducts, setfilteredProducts] = useState([])
   const [show, setshow] = useState(false)
   const [selectFilter, setselectFilter] = useState("All Products")
@@ -14,9 +13,42 @@ const Products = () => {
   const getProducts = () => {
     axios.get("http://localhost:3000/products")
       .then((response) => {
-        setproducts(response.data);
         setfilteredProducts(response.data);
       })
+  }
+
+  const handleFilter = async()=>{
+    if(selectFilter === "All Products"){
+      getProducts();
+    }
+
+    if(selectFilter === "Mobile"){
+      await axios.get("http://localhost:3000/products/mobile")
+      .then((response)=>{
+        setfilteredProducts(response.data);
+      })
+    }
+
+    if(selectFilter === "Laptop"){
+      await axios.get("http://localhost:3000/products/laptop")
+      .then((response)=>{
+        setfilteredProducts(response.data);
+      })
+    }
+
+    if(selectFilter === "Watch"){
+      await axios.get("http://localhost:3000/products/watch")
+      .then((response)=>{
+        setfilteredProducts(response.data);
+      })
+    }
+
+    if(selectFilter === "Accessories"){
+      await axios.get("http://localhost:3000/products/accessories")
+      .then((response)=>{
+        setfilteredProducts(response.data);
+      })
+    }
   }
 
   const navigate = useNavigate();
@@ -27,8 +59,8 @@ const Products = () => {
   }
 
   useEffect(() => {
-    getProducts();
-  }, [])
+    handleFilter();
+  }, [selectFilter])
 
   return (
     <div className='h-screen flex bg-gray-50'>
@@ -63,8 +95,8 @@ const Products = () => {
         </div>
         <div className='style gap-3 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 w-full h-4/5 overflow-scroll shrink-0'>
           {filteredProducts && filteredProducts.map((data, index) => {
-            return <div key={index} className='bg-white border-1 border-gray-200 rounded-2xl py-4 cursor-pointer h-full hover:py-2' onClick={()=>{handleProduct(data)}}>
-              <img className='w-full h-3/5  md:h-4/5 lg:h-4/5' src={data.images[0]} alt="" />
+            return <div key={index} className='bg-white border-1 border-gray-200 rounded-2xl py-4 flex flex-col justify-center cursor-pointer h-fit max-h-full hover:py-2' onClick={()=>{handleProduct(data)}}>
+              <img className='w-full md:h-4/5 lg:h-4/5' src={data.images[0]} alt="" />
               <div className='flex flex-col items-center w-full px-2'>
                 <span className='text-xl md:text-2xl lg:text-2xl'>{data.name}</span>
                 <span className='font-extralight'>{data.company}</span>
